@@ -1,0 +1,12 @@
+[
+  {
+    "id": "4a64ef96",
+    "timestamp": "2026-06-15 21:21:49",
+    "description": "gas leak",
+    "department": "Production",
+    "severity": "MEDIUM",
+    "reporter": "poorvi",
+    "image_path": "data\\incident_images\\d93d6b53-dd55-471f-b5c9-68dbec296676.webp",
+    "status": "Open"
+  }
+]
