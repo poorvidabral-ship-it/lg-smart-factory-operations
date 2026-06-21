@@ -1,0 +1,15 @@
+[project]
+name = "lg-smart-factory"
+version = "1.0.0"
+dependencies = [
+    "streamlit",
+    "streamlit-autorefresh",
+    "google-generativeai",
+    "supabase",
+    "fpdf2",
+    "pandas",
+    "numpy",
+    "pillow",
+    "openpyxl",
+    "plotly",
+]
