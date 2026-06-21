@@ -1,0 +1,9 @@
+streamlit
+streamlit-autorefresh
+google-generativeai
+supabase
+fpdf2
+pandas
+numpy
+Pillow
+openpyxl
