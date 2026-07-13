@@ -600,9 +600,14 @@ if page == "🏠  Dashboard":
 
     # ── Live Cloud Incident Feed ──────────────────────────────────────────
     st.markdown("### ☁ Live Incident Feed (Supabase)")
+    cloud_incidents = []
     supabase = get_supabase()
-    cl_resp = supabase.table("incident_log").select("*").order("created_at", desc=True).limit(5).execute()
-    cloud_incidents = cl_resp.data or []
+    if supabase is not None:
+        try:
+            cl_resp = supabase.table("incident_log").select("*").order("created_at", desc=True).limit(5).execute()
+            cloud_incidents = cl_resp.data or []
+        except Exception:
+            pass
     if cloud_incidents:
         for inc in cloud_incidents:
             sev = inc.get("severity", "LOW")
@@ -810,12 +815,18 @@ elif page == "📸  Incidents":
                 ci_sev = st.selectbox("Severity", ["LOW", "MEDIUM", "HIGH", "CRITICAL"])
             if st.form_submit_button("🚀 Submit to Cloud", type="primary"):
                 supabase = get_supabase()
-                supabase.table("incident_log").insert({
-                    "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                    "title": ci_title, "description": ci_desc,
-                    "department": ci_dept, "severity": ci_sev, "status": "Open",
-                }).execute()
-                st.success("Incident saved to Supabase cloud!")
+                if supabase is not None:
+                    try:
+                        supabase.table("incident_log").insert({
+                            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                            "title": ci_title, "description": ci_desc,
+                            "department": ci_dept, "severity": ci_sev, "status": "Open",
+                        }).execute()
+                        st.success("Incident saved to Supabase cloud!")
+                    except Exception:
+                        st.warning("Supabase unavailable — incident not saved")
+                else:
+                    st.warning("Supabase unavailable — incident not saved")
                 st.rerun()
 
     with tab3:
@@ -836,9 +847,14 @@ elif page == "📸  Incidents":
 
     with tab4:
         st.markdown("### ☁ Cloud Incident Feed (Supabase)")
+        cloud_incidents = []
         supabase = get_supabase()
-        cl_resp = supabase.table("incident_log").select("*").order("created_at", desc=True).limit(50).execute()
-        cloud_incidents = cl_resp.data or []
+        if supabase is not None:
+            try:
+                cl_resp = supabase.table("incident_log").select("*").order("created_at", desc=True).limit(50).execute()
+                cloud_incidents = cl_resp.data or []
+            except Exception:
+                pass
         if cloud_incidents:
             for inc in cloud_incidents:
                 sev = inc.get("severity", "LOW")
